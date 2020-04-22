@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RelativeForm from './RelativeForm'
 
 class Relatives extends Component {
     constructor(props){
@@ -9,7 +10,7 @@ class Relatives extends Component {
     }
 
     getRelatives = () => {
-        fetch('http://localhost:5000/api/relatives')
+        fetch(`${process.env.REACT_APP_API_URL}/api/relatives`)
             .then(response => response.json())
             .then(data => this.setState( { relatives : data } ));
     };
@@ -24,6 +25,7 @@ class Relatives extends Component {
         return(
             <>
                 <h2>Relatives Rolodex</h2>
+                <RelativeForm refresh={this.getRelatives}/>
                 {displayRelatives}
             </>
         )
