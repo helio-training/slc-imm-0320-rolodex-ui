@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RelativeForm from './RelativeForm'
+import Relative from './Relative'
 
 class Relatives extends Component {
     constructor(props){
@@ -15,12 +16,21 @@ class Relatives extends Component {
             .then(data => this.setState( { relatives : data } ));
     };
 
+    deleteRelative = (id) => {
+        fetch(`${process.env.REACT_APP_API_URL}/api/relatives/${id}`, {
+            method: 'DELETE'
+        }) 
+            .then(response => response.json())
+            .then(console.log)
+            .then(this.getRelatives);
+    };
+
     componentDidMount(){
         this.getRelatives();
     }
     render(){
         const displayRelatives = this.state.relatives.map((relative) => {
-            return <div key={relative._id}>{relative.name}</div>
+            return <Relative key={relative._id} relative={relative} deleteRelative={this.deleteRelative}/>
         })
         return(
             <>
